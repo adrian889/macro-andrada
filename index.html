@@ -135,7 +135,7 @@
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Data Jurnalului</span>
             <div class="flex items-center gap-2">
-              <button onclick="setRealToday()" class="text-xs text-emerald-400 hover:underline font-medium">Azi (15 Oct)</button>
+              <button onclick="setRealToday()" class="text-xs text-emerald-400 hover:underline font-medium">Azi</button>
             </div>
           </div>
           <div class="flex items-center gap-2">
@@ -617,8 +617,17 @@
       { id: 'b46', name: 'Tiramisu', cat: 'Fructe, Nuci & Gustări', p: 4.0, f: 12.2, c: 34.8, freq: 3 }
     ];
 
+    // Funcție care ia data exactă de azi după fusul orar al telefonului (YYYY-MM-DD)
+    function getTodayISO() {
+      const d = new Date();
+      const an = d.getFullYear();
+      const luna = String(d.getMonth() + 1).padStart(2, '0');
+      const zi = String(d.getDate()).padStart(2, '0');
+      return `${an}-${luna}-${zi}`;
+    }
+
     let state = {
-      currentDate: '2026-10-15',
+      currentDate: getTodayISO(),
       cloudUrl: '',
       profile: { ...DEFAULT_PROFILE },
       entries: [],
@@ -1030,7 +1039,7 @@
       state.currentDate = d.toISOString().slice(0, 10);
       renderAll();
     }
-    function setRealToday() { state.currentDate = '2026-10-15'; renderAll(); }
+    function setRealToday() { state.currentDate = getTodayISO(); renderAll(); }
 
     function onMealNameInput(val) {
       const match = state.foodBank.find(b => b.name.toLowerCase() === val.trim().toLowerCase());
